@@ -13,12 +13,8 @@ RUN python3.8 -m pip install --upgrade pip setuptools
 
 RUN mkdir -p /home/workspace/ai_backend
 WORKDIR /home/workspace/admin_backend
-
 RUN	git clone "https://github.com/davidhungpill/ktwizai.git"
 WORKDIR /home/workspace/admin_backend/ktwizai
-
 RUN	pip install -r requirements.txt
-
-RUN  pip install -r requirements.txt
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 EXPOSE 8000
