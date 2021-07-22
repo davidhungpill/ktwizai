@@ -14,6 +14,7 @@ WORKDIR /home/workspace/admin_backend
 RUN	git clone https://github.com/davidhungpill/ktwizai.git ktwizai
 WORKDIR /home/workspace/admin_backend/ktwizai
 RUN	pip3 install -r requirements.txt
+RUN python manage.py migrate
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 EXPOSE 8000
