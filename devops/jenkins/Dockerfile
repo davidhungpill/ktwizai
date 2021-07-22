@@ -1,4 +1,4 @@
-FROM python:3
+FROM python
 
 ADD  requirements.txt ${HOME}
 ADD  devops/jenkins/pip.conf ${HOME}/.pip/
