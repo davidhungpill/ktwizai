@@ -1,0 +1,24 @@
+{{- $releaseName := .Release.Name -}}
+{{- range .Values.services }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Values.app }}
+  labels:
+    app: {{ $.Values.app }}
+    chart: {{ template "merge.chart" $ }}
+    release: {{ $releaseName }}
+spec:
+  clusterIP: None
+  ports:
+    - port: {{ .port }}
+      targetPort: {{ .targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ $.Values.app }}
+    chart: {{ template "merge.chart" $ }}
+    release: {{ $releaseName }}
+---
+
+{{- end }}

@@ -1,0 +1,79 @@
+{{- $releaseName := .Release.Name -}}
+{{- $istioEnabled := and (eq .Values.global.istio.enabled true) (eq .Values.istio.enabled true) -}}
+{{- range .Values.statefulsets }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $.Values.app }}
+  labels:
+    app: {{ $.Values.app }}
+    chart: {{ template "merge.chart" $ }}
+    release: {{ $releaseName }}
+spec:
+  replicas: {{ $.Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $.Values.app }}
+      chart: {{ template "merge.chart" $ }}
+      release: {{ $releaseName }}
+  serviceName: {{ $.Values.app }}
+  template:
+    metadata:
+      {{- if $istioEnabled }}
+      annotations:
+        sidecar.istio.io/inject: "true"
+      {{- end }}
+      labels:
+        app: {{ $.Values.app }}
+        chart: {{ template "merge.chart" $ }}
+        release: {{ $releaseName }}
+    spec:
+{{- $versionStart := $.Values.version|trunc 7 }}
+{{- if eq $versionStart "sha256:" }}
+{{ $changedVersion := printf "@%s" $.Values.version -}}
+{{ toYaml .spec | indent 8| replace ":${version}" $changedVersion  }}
+{{- else }}
+{{ toYaml .spec | indent 8| replace "${version}" $.Values.version  }}
+{{- end }}
+---
+{{if $.Values.canary.enabled}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ $.Values.app }}-canary
+  labels:
+    app: {{ $.Values.app }}-canary
+    chart: {{ template "merge.chart" $ }}
+    release: {{ $releaseName }}
+spec:
+  replicas: {{ .replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $.Values.app }}
+      chart: {{ template "merge.chart" $ }}
+      release: {{ $releaseName }}
+      canary: {{ .Values.canary.enabled }}
+  serviceName: {{ $.Values.app }}
+  template:
+    metadata:
+      {{- if $istioEnabled }}
+      annotations:
+        sidecar.istio.io/inject: "true"
+      {{- end }}
+      labels:
+        app: {{ $.Values.app }}
+        chart: {{ template "merge.chart" $ }}
+        release: {{ $releaseName }}
+        canary: {{ .Values.canary.enabled }}
+    spec:
+{{- $versionStart := $.Values.canary.version|trunc 7 -}}
+{{- if eq $versionStart "sha256:" }}
+{{ $changedVersion := printf "@%s" $.Values.canary.version -}}
+{{ toYaml .spec | indent 8| replace ":${version}" $changedVersion  }}
+{{- else }}
+{{ toYaml .spec | indent 8| replace "${version}" $.Values.canary.version  }}
+{{- end }}
+---
+{{end}}
+{{- end }}
+
