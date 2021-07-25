@@ -1,14 +1,15 @@
 {{- $releaseName := .Release.Name -}}
 {{- $istioEnabled := and (eq .Values.global.istio.enabled true) (eq .Values.istio.enabled true) -}}
-{{- range .Values.statefulsets }}
+{{- range .Values.deployments }}
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: {{ $.Values.app }}
   labels:
     app: {{ $.Values.app }}
     chart: {{ template "merge.chart" $ }}
     release: {{ $releaseName }}
+    type: "normal"
 spec:
   replicas: {{ $.Values.replicas }}
   selector:
@@ -16,7 +17,7 @@ spec:
       app: {{ $.Values.app }}
       chart: {{ template "merge.chart" $ }}
       release: {{ $releaseName }}
-  serviceName: {{ $.Values.app }}
+      type: "normal"
   template:
     metadata:
       {{- if $istioEnabled }}
@@ -27,6 +28,7 @@ spec:
         app: {{ $.Values.app }}
         chart: {{ template "merge.chart" $ }}
         release: {{ $releaseName }}
+        type: "normal"
     spec:
 {{- $versionStart := $.Values.version|trunc 7 }}
 {{- if eq $versionStart "sha256:" }}
@@ -36,15 +38,17 @@ spec:
 {{ toYaml .spec | indent 8| replace "${version}" $.Values.version  }}
 {{- end }}
 ---
-{{if $.Values.canary.enabled}}
-apiVersion: apps/v1
-kind: StatefulSet
+{{- if $.Values.canary.enabled -}}
+apiVersion: apps/v1beta2
+kind: Deployment
 metadata:
   name: {{ $.Values.app }}-canary
   labels:
-    app: {{ $.Values.app }}-canary
+    app: {{ $.Values.app }}
     chart: {{ template "merge.chart" $ }}
     release: {{ $releaseName }}
+    type: "canary"
+    version: {{ $.Values.canary.version }}
 spec:
   replicas: {{ .replicaCount }}
   selector:
@@ -52,8 +56,8 @@ spec:
       app: {{ $.Values.app }}
       chart: {{ template "merge.chart" $ }}
       release: {{ $releaseName }}
-      canary: {{ .Values.canary.enabled }}
-  serviceName: {{ $.Values.app }}
+      type: "canary"
+      version: {{ $.Values.canary.version }}
   template:
     metadata:
       {{- if $istioEnabled }}
@@ -64,7 +68,8 @@ spec:
         app: {{ $.Values.app }}
         chart: {{ template "merge.chart" $ }}
         release: {{ $releaseName }}
-        canary: {{ .Values.canary.enabled }}
+        type: "canary"
+        version: {{ $.Values.canary.version }}
     spec:
 {{- $versionStart := $.Values.canary.version|trunc 7 -}}
 {{- if eq $versionStart "sha256:" }}
@@ -74,6 +79,6 @@ spec:
 {{ toYaml .spec | indent 8| replace "${version}" $.Values.canary.version  }}
 {{- end }}
 ---
-{{end}}
+{{- end }}
 {{- end }}
 
