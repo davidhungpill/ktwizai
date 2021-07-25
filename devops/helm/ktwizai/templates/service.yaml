@@ -9,7 +9,7 @@ metadata:
     chart: {{ template "merge.chart" $ }}
     release: {{ $releaseName }}
 spec:
-  clusterIP: None
+  type: {{ .type }}
   ports:
     - port: {{ .port }}
       targetPort: {{ .targetPort }}
