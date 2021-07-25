@@ -22,7 +22,7 @@
 global:
   istio:
     enabled: false
-  namespace: oss
+  namespace: ktwiz
 
 ##=(Application 기본 작성 영역)============================================================###
 ## Application 기본 정보 작성 영역 
@@ -33,7 +33,7 @@ global:
 ##
 ##=========================================================================================###
 version: latest
-app: ai-assistant-deploy
+app: ktwizai
 ##=========================================================================================###
 
 
@@ -67,35 +67,25 @@ services:
 ## ----------                 -----------------------------------                ---------- ##
 ## ----------                 -----------------------------------                ---------- ##
 replicas: 2
-statefulsets:
+deployments:
   - spec:
       containers:
-      - image: docker-registry.default.svc:5000/oss/ai-assistant-deploy:${version}
+      - image: davidhungpill/ktwizai:latest
         imagePullPolicy: Always
-        name: ai-assistant-deploy
+        name: ktwizai
         ports:
         - containerPort: 8080
           name: http
         env:
-        - name: POSSAPP_DB_USER
-          valueFrom:
-            secretKeyRef:
-              name: ai-assistant-deploy-secret
-              key: POSSAPP_DB_USER
-        - name: POSSAPP_DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: ai-assistant-deploy-secret
-              key: POSSAPP_DB_PASSWORD
-
+        
 
         resources: 
           requests:
             cpu: 300m
-            memory: 1024Mi
+            memory: 256Mi
           limits:
-            cpu: 500m
-            memory: 2048Mi
+            cpu: 300m
+            memory: 512Mi
     
  
 ##=========================================================================================###
@@ -118,13 +108,13 @@ statefulsets:
 ## ----------                 -----------------------------------                ---------- ##
 ingress:
   enabled: false
-  routerEnabled: true
+  routerEnabled: false
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  serviceName: ai-assistant-deploy
+  serviceName: ktwizai
   hosts:
-    - host: ai-assistant-deploy.cz-okd-dev.arsenal.kt.co.kr
+    - host: ktwiz.ai.ktds.amazonaws.com
       paths: 
         - /
   tls: []
@@ -151,7 +141,7 @@ ingress:
 istio:
   enabled: false
   destination:
-    host: ai-assistant-deploy
+    host: ktwizai
     legacy:
     
     
@@ -160,10 +150,7 @@ istio:
 ##=(DB user, password secret)==============================================================###
 
 secret:
-  enabled: true
-  data:
-    POSSAPP_DB_USER: cG9zc19hcHA=
-    POSSAPP_DB_PASSWORD: UG9BcDA3MjEh
+  enabled: false
     
 
 ##=========================================================================================###
