@@ -107,7 +107,7 @@ deployments:
 ## ----------                 -----------------------------------                ---------- ##
 ## ----------                 -----------------------------------                ---------- ##
 ingress:
-  enabled: false
+  enabled: true
   routerEnabled: false
   annotations: {}
     # kubernetes.io/ingress.class: nginx
