@@ -66,7 +66,7 @@ services:
 ## ex) image: docker-registry.default.svc.cluster.local:5000/millet/userlist:${version}
 ## ----------                 -----------------------------------                ---------- ##
 ## ----------                 -----------------------------------                ---------- ##
-replicas: 2
+replicas: 1
 deployments:
   - spec:
       containers:
