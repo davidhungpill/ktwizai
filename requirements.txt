@@ -10,4 +10,4 @@ six
 sqlparse
 matplotlib
 seaborn
-python-scipy
+scipy
