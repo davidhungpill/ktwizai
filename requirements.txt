@@ -37,17 +37,3 @@ statsmodels==0.13.0
 threadpoolctl==3.0.0
 urllib3==1.26.7
 webencodings==0.5.1
-=======
-asgiref
-Django
-djangorestframework
-numpy
-pandas
-psycopg2
-python-dateutil
-pytz
-six
-sqlparse
-matplotlib
-seaborn
-scipy
