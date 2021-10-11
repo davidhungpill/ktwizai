@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 asgiref==3.4.1
 beautifulsoup4==4.10.0
 bs4==0.0.1
@@ -52,4 +51,3 @@ sqlparse
 matplotlib
 seaborn
 scipy
->>>>>>> 97bdab451cf6bbd883771efd4074f68a514c7092
