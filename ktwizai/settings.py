@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'apis',
     'controller',
+    'crawler',
 ]
 
 MIDDLEWARE = [
@@ -77,10 +78,21 @@ WSGI_APPLICATION = 'ktwizai.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "postgres",       # 2) 에서 만든 db name
+        "USER": "dbmasteruser",     # 2) 에서 만든 user name
+        "PASSWORD": "KTNew1234!", # 2) 에서 만든 user pw
+        "HOST": "ls-1351dbc9c333e46fd7f8eaaee16479a68e1b2c13.cc0v75kmr8ik.ap-northeast-2.rds.amazonaws.com",     # 기본값
+        "PORT": "5432",          # 기본값
     }
 }
 

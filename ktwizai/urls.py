@@ -21,6 +21,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     url('kbostatistics/', include('kbostatistics.urls')),
+    url('crawler/', include('crawler.urls')),
     url('apis/', include('apis.urls')),
     url('', include('controller.urls'))
 ]
