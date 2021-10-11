@@ -89,9 +89,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "postgres",       # 2) 에서 만든 db name
-        "USER": "dbmasteruser",     # 2) 에서 만든 user name
-        "PASSWORD": "KTNew1234!", # 2) 에서 만든 user pw
-        "HOST": "ls-1351dbc9c333e46fd7f8eaaee16479a68e1b2c13.cc0v75kmr8ik.ap-northeast-2.rds.amazonaws.com",     # 기본값
+        "USER": "postgres",     # 2) 에서 만든 user name
+        "PASSWORD": "Test8080!", # 2) 에서 만든 user pw
+        "HOST": "ktds-db2.cznz2ugarinh.ap-northeast-2.rds.amazonaws.com",     # 기본값
         "PORT": "5432",          # 기본값
     }
 }
