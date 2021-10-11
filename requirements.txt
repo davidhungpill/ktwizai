@@ -9,3 +9,4 @@ pytz
 six
 sqlparse
 matplotlib
+seaborn
