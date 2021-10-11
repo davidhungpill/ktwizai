@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 asgiref==3.4.1
 beautifulsoup4==4.10.0
 bs4==0.0.1
@@ -37,3 +38,18 @@ statsmodels==0.13.0
 threadpoolctl==3.0.0
 urllib3==1.26.7
 webencodings==0.5.1
+=======
+asgiref
+Django
+djangorestframework
+numpy
+pandas
+psycopg2
+python-dateutil
+pytz
+six
+sqlparse
+matplotlib
+seaborn
+scipy
+>>>>>>> 97bdab451cf6bbd883771efd4074f68a514c7092
